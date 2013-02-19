@@ -15,4 +15,4 @@ Use like this:
 
 For example, sort your `du`, but still get readable results:
 
-    $ du * | sort -nr | head -5 | bytes2human
+    $ du -b * | sort -nr | head -5 | bytes2human
