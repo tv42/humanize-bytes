@@ -7,9 +7,9 @@ import (
 	"github.com/dustin/go-humanize"
 	"io"
 	"log"
+	"math/big"
 	"os"
 	"path"
-	"strconv"
 	"strings"
 	"unicode"
 )
@@ -33,15 +33,16 @@ func convertLine(line string) (string, error) {
 	robot := line[:split]
 	rest := line[split:]
 
-	number, err := strconv.ParseUint(robot, 10, 64)
-	if err != nil {
-		return line, err
+	var number big.Int
+	_, ok := number.SetString(robot, 10)
+	if !ok {
+		return line, fmt.Errorf("not a number: %v", robot)
 	}
 	var human string
 	if *si_units {
-		human = humanize.Bytes(number)
+		human = humanize.BigBytes(&number)
 	} else {
-		human = humanize.IBytes(number)
+		human = humanize.BigIBytes(&number)
 	}
 	return human + rest, nil
 }
@@ -77,8 +78,8 @@ func main() {
 			}
 		}
 	} else {
-	 	for _, line := range flag.Args() {
-			out, err := convertLine(line+"\n")
+		for _, line := range flag.Args() {
+			out, err := convertLine(line + "\n")
 			if !*sloppy && err != nil {
 				log.Fatalf("cannot convert line: %s", err)
 			}

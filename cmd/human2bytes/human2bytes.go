@@ -9,7 +9,6 @@ import (
 	"log"
 	"os"
 	"path"
-	"strconv"
 	"strings"
 	"unicode"
 )
@@ -32,11 +31,11 @@ func convertLine(line string) (string, error) {
 	human := line[:split]
 	rest := line[split:]
 
-	number, err := humanize.ParseBytes(human)
+	number, err := humanize.ParseBigBytes(human)
 	if err != nil {
-	 	return line, err
+		return line, err
 	}
-	robot := strconv.FormatUint(number, 10)
+	robot := number.String()
 	return robot + rest, nil
 }
 
@@ -71,8 +70,8 @@ func main() {
 			}
 		}
 	} else {
-	 	for _, line := range flag.Args() {
-			out, err := convertLine(line+"\n")
+		for _, line := range flag.Args() {
+			out, err := convertLine(line + "\n")
 			if !*sloppy && err != nil {
 				log.Fatalf("cannot convert line: %s", err)
 			}
