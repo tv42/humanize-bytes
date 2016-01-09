@@ -16,7 +16,7 @@ import (
 
 var sloppy = flag.Bool("sloppy", false, "continue past parse errors")
 
-var Usage = func() {
+func usage() {
 	fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
 	fmt.Fprintf(os.Stderr, "  %s [NUMBER..]\n", os.Args[0])
 	fmt.Fprintf(os.Stderr, "  %s <FILE\n", os.Args[0])
@@ -45,7 +45,7 @@ func main() {
 	log.SetFlags(0)
 	log.SetPrefix(prog + ": ")
 
-	flag.Usage = Usage
+	flag.Usage = usage
 	flag.Parse()
 
 	if flag.NArg() == 0 {
