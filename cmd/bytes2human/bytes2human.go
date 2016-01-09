@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/dustin/go-humanize"
 	"io"
 	"log"
 	"math/big"
@@ -12,6 +11,8 @@ import (
 	"path"
 	"strings"
 	"unicode"
+
+	"github.com/dustin/go-humanize"
 )
 
 var sloppy = flag.Bool("sloppy", false, "continue past parse errors")
